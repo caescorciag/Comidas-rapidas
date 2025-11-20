@@ -19,12 +19,14 @@
       <div class="login-actions">
         <button id="loginBtn">Entrar</button>
       </div>
+      <div id="loginError" class="login-error" style="display:none;color:#e05a3c;font-size:14px;margin-top:8px"></div>
       <div class="login-hint">Usuario: <strong>admin</strong> • Contraseña: <strong>admin</strong></div>
     </div>
   </div>
 
   <header>
     <h1>POS - Comida Rápida</h1>
+    <div class="totals">Total: $<span id="total">0.00</span></div>
     <div class="user-area" id="userArea" style="display:none">
       Bienvenido, <span id="username"></span>
       <button id="logoutBtn" class="small-btn">Cerrar sesión</button>
@@ -54,6 +56,28 @@
       </div>
     </div>
 
+    <div class="menu-card" data-key="clients">
+      <div class="card-head">
+        <h3>Clientes</h3>
+        <p>Gestionar clientes</p>
+      </div>
+      <div class="card-options">
+        <button class="card-opt" data-action="view-clients">Ver / Editar</button>
+        <button class="card-opt" data-action="add-client">Agregar cliente</button>
+      </div>
+    </div>
+
+    <div class="menu-card" data-key="suppliers">
+      <div class="card-head">
+        <h3>Proveedores</h3>
+        <p>Gestionar proveedores</p>
+      </div>
+      <div class="card-options">
+        <button class="card-opt" data-action="view-suppliers">Ver / Editar</button>
+        <button class="card-opt" data-action="add-supplier">Agregar proveedor</button>
+      </div>
+    </div>
+
     <div class="menu-card" data-key="dashboard">
       <div class="card-head">
         <h3>Dashboard</h3>
@@ -62,6 +86,15 @@
       <div class="card-options">
         <button class="card-opt" data-action="summary">Resumen</button>
         <button class="card-opt" data-action="export">Exportar ventas</button>
+      </div>
+    </div>
+    <div class="menu-card" data-key="config">
+      <div class="card-head">
+        <h3>Configuraciones</h3>
+        <p>Ajustes de factura y empresa</p>
+      </div>
+      <div class="card-options">
+        <button class="card-opt" data-action="open-config">Ajustes factura</button>
       </div>
     </div>
   </section>
@@ -77,6 +110,28 @@
       <label class="lbl">Nombre cliente
         <input id="customerName" type="text" placeholder="Nombre del cliente (opcional)" />
       </label>
+      <label class="lbl">Seleccionar cliente
+        <select id="clientSelect">
+          <option value="">-- Nuevo cliente --</option>
+        </select>
+      </label>
+        <label class="lbl">C.C / NIT
+          <input id="customerNIT" type="text" placeholder="Cédula o NIT (opcional)" />
+        </label>
+        <label class="lbl">Dirección
+          <input id="customerAddress" type="text" placeholder="Dirección (opcional)" />
+        </label>
+        <label class="lbl">Teléfono
+          <input id="customerPhone" type="text" placeholder="Teléfono (opcional)" />
+        </label>
+      <label class="lbl">Método de pago
+        <select id="paymentMethod">
+          <option value="Efectivo">Efectivo</option>
+          <option value="Tarjeta">Tarjeta</option>
+          <option value="Transferencia">Transferencia</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </label>
       <ul id="cartList"></ul>
       <div class="cart-breakdown">
         <div>Subtotal: $<span id="subtotalVal">0.00</span></div>
@@ -87,6 +142,7 @@
       <div class="cart-actions">
         <button id="clearBtn">Vaciar</button>
         <button id="checkoutBtn">Cobrar</button>
+        <button id="printBtn" style="display:none">Imprimir ticket</button>
       </div>
       <div class="small">Ventas guardadas localmente</div>
     </aside>
@@ -111,6 +167,74 @@
     <div id="inventoryAdminList" class="grid"></div>
   </section>
 
+  <section id="clientsView" class="hidden admin-view">
+    <h2>Clientes</h2>
+    <div class="add-client-form">
+      <label class="lbl">Nombre
+        <input id="clientName" type="text" placeholder="Nombre cliente" />
+      </label>
+      <label class="lbl">C.C / NIT
+        <input id="clientNIT" type="text" placeholder="Cédula o NIT" />
+      </label>
+      <label class="lbl">Dirección
+        <input id="clientAddress" type="text" placeholder="Dirección" />
+      </label>
+      <label class="lbl">Teléfono
+        <input id="clientPhone" type="text" placeholder="Teléfono" />
+      </label>
+      <div style="margin-top:8px">
+        <button id="addClientBtn">Agregar cliente</button>
+      </div>
+    </div>
+    <div id="clientsList" class="grid"></div>
+  </section>
+
+  <section id="suppliersView" class="hidden admin-view">
+    <h2>Proveedores</h2>
+    <div class="add-supplier-form">
+      <label class="lbl">Nombre proveedor
+        <input id="supplierName" type="text" placeholder="Nombre proveedor" />
+      </label>
+      <label class="lbl">NIT / Identificación
+        <input id="supplierNIT" type="text" placeholder="NIT" />
+      </label>
+      <label class="lbl">Dirección
+        <input id="supplierAddress" type="text" placeholder="Dirección" />
+      </label>
+      <label class="lbl">Teléfono
+        <input id="supplierPhone" type="text" placeholder="Teléfono" />
+      </label>
+      <div style="margin-top:8px">
+        <button id="addSupplierBtn">Agregar proveedor</button>
+      </div>
+    </div>
+    <div id="suppliersList" class="grid"></div>
+  </section>
+
+  <section id="configView" class="hidden admin-view">
+    <h2>Configuraciones</h2>
+    <div class="config-form">
+      <label class="lbl">Nombre de la empresa
+        <input id="cfgCompanyName" type="text" placeholder="Nombre de la empresa" />
+      </label>
+      <label class="lbl">NIT / Identificación
+        <input id="cfgCompanyNIT" type="text" placeholder="NIT o identificación" />
+      </label>
+      <label class="lbl">Dirección empresa
+        <input id="cfgCompanyAddress" type="text" placeholder="Dirección de la empresa" />
+      </label>
+      <label class="lbl">Teléfono empresa
+        <input id="cfgCompanyPhone" type="text" placeholder="Teléfono" />
+      </label>
+      <label class="lbl">Nota pie de recibo
+        <input id="cfgFooterNote" type="text" placeholder="Texto corto al final del recibo" />
+      </label>
+      <div style="margin-top:8px">
+        <button id="saveConfigBtn">Guardar configuraciones</button>
+      </div>
+    </div>
+  </section>
+
   <section id="dashboardView" class="hidden admin-view">
     <h2>Dashboard</h2>
     <div id="dashboardContent"></div>
@@ -132,5 +256,4 @@
 
   <script src="script.js"></script>
 </body>
-
 </html>
