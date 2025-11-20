@@ -70,6 +70,20 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .cart-breakdown .bd-total{font-weight:700;color:var(--accent);margin-top:6px}
 .cart .lbl input{margin-top:6px}
 
+/* Payment method selector */
+.cart .lbl select{width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;margin-top:6px;background:#fff}
+
+/* Print button */
+#printBtn{background:#2d8f2d;color:#fff;border:none;padding:8px 12px;border-radius:4px;margin-left:8px;cursor:pointer}
+#printBtn:disabled{opacity:.5;cursor:not-allowed}
+
+/* Modern card look for cart */
+.cart{box-shadow:0 4px 18px rgba(0,0,0,.08);border:1px solid #e6e6e6}
+.cart-actions{margin-top:16px}
+.cart-actions button{min-width:100px}
+.cart h2{font-size:20px;margin-bottom:10px}
+.cart .lbl{font-size:15px;margin-bottom:8px}
+
 /* small behaviour on mobile */
 @media (max-width:700px){
 	.menu-cards{flex-direction:column;align-items:center}
