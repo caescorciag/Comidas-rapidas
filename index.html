@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>POS - Comida Rápida</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="loginOverlay" class="login-overlay">
+    <div class="login-box">
+      <h2>Iniciar sesión</h2>
+      <label class="lbl">Usuario
+        <input id="loginUser" type="text" autocomplete="username" />
+      </label>
+      <label class="lbl">Contraseña
+        <input id="loginPass" type="password" autocomplete="current-password" />
+      </label>
+      <div class="login-actions">
+        <button id="loginBtn">Entrar</button>
+      </div>
+      <div class="login-hint">Usuario: <strong>admin</strong> • Contraseña: <strong>admin</strong></div>
+    </div>
+  </div>
+
+  <header>
+    <h1>POS - Comida Rápida</h1>
+    <div class="totals">Total: $<span id="total">0.00</span></div>
+    <div class="user-area" id="userArea" style="display:none">
+      Bienvenido, <span id="username"></span>
+      <button id="logoutBtn" class="small-btn">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <section id="menuCards" class="menu-cards" style="display:none">
+    <div class="menu-card" data-key="sales">
+      <div class="card-head">
+        <h3>Ventas</h3>
+        <p>Registrar ventas y ver historial</p>
+      </div>
+      <div class="card-options">
+        <button class="card-opt" data-action="new-sale">Nueva venta</button>
+        <button class="card-opt" data-action="history">Historial</button>
+      </div>
+    </div>
+
+    <div class="menu-card" data-key="inventory">
+      <div class="card-head">
+        <h3>Inventario</h3>
+        <p>Ver y administrar productos</p>
+      </div>
+      <div class="card-options">
+        <button class="card-opt" data-action="view-edit">Ver / Editar</button>
+        <button class="card-opt" data-action="add-product">Agregar producto</button>
+      </div>
+    </div>
+
+    <div class="menu-card" data-key="dashboard">
+      <div class="card-head">
+        <h3>Dashboard</h3>
+        <p>Resumen de ventas e ingresos</p>
+      </div>
+      <div class="card-options">
+        <button class="card-opt" data-action="summary">Resumen</button>
+        <button class="card-opt" data-action="export">Exportar ventas</button>
+      </div>
+    </div>
+  </section>
+
+  <main id="salesView">
+    <section class="inventory">
+      <h2>Menú / Inventario</h2>
+      <div id="menu" class="grid"></div>
+    </section>
+
+    <aside class="cart">
+      <h2>Carrito</h2>
+      <label class="lbl">Nombre cliente
+        <input id="customerName" type="text" placeholder="Nombre del cliente (opcional)" />
+      </label>
+      <ul id="cartList"></ul>
+      <div class="cart-breakdown">
+        <div>Subtotal: $<span id="subtotalVal">0.00</span></div>
+        <div>IVA (19%): $<span id="ivaVal">0.00</span></div>
+        <div>Propina (10%): $<span id="tipVal">0.00</span></div>
+        <div class="bd-total">Total: $<span id="totalVal">0.00</span></div>
+      </div>
+      <div class="cart-actions">
+        <button id="clearBtn">Vaciar</button>
+        <button id="checkoutBtn">Cobrar</button>
+      </div>
+      <div class="small">Ventas guardadas localmente</div>
+    </aside>
+  </main>
+
+  <section id="inventoryView" class="hidden admin-view">
+    <h2>Inventario (Administración)</h2>
+    <div class="add-product-form" id="addProductForm">
+      <label class="lbl">Nombre
+        <input id="addName" type="text" placeholder="Nombre del producto" />
+      </label>
+      <label class="lbl">Precio
+        <input id="addPrice" type="number" step="0.01" placeholder="0.00" />
+      </label>
+      <label class="lbl">Stock
+        <input id="addStock" type="number" step="1" placeholder="0" />
+      </label>
+      <div style="margin-top:8px">
+        <button id="addProductBtn">Agregar producto</button>
+      </div>
+    </div>
+    <div id="inventoryAdminList" class="grid"></div>
+  </section>
+
+  <section id="dashboardView" class="hidden admin-view">
+    <h2>Dashboard</h2>
+    <div id="dashboardContent"></div>
+  </section>
+
+  <template id="itemTpl">
+    <div class="item">
+      <div class="info">
+        <div class="name"></div>
+        <div class="price">$0.00</div>
+        <div class="stock">Stock: <span class="stockVal">0</span></div>
+      </div>
+      <div class="actions">
+        <input type="number" class="qty" min="1" value="1" />
+        <button class="add">Agregar</button>
+      </div>
+    </div>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
